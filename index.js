@@ -1,39 +1,38 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 const path = require('path');
-svggernertor = require('./lib/svggenerator');
+svggenerator = require('./lib/svggenerator');
 
-const {Triangle, Square, Circle} = require('./lib/shapes');
+const { Triangle, Square, Circle } = require("./lib/shapes");
+
+
 
 const questions = [
-    {
-        type: 'input',
-        name: 'text',
-        message: 'What would you like to write on your SVG?'
+{
+    type: "input",
+    name: "text",
+    message: "Enter the text for the logo. Must not be more than 3 characters."
+},
 
-    },
+{
+    type: "input",
+    name: "color",
+    message: "Enter a text color. This can be a color keyword or a hexadecimal value."
+},
 
-    {
-        type: 'list',
-        name: 'shape',
-        message: 'What shape would you like to use?',
-        choice: ['circle', 'square', 'triangle']
+{
+    type: "list",
+    name: "shape",
+    message: "Select a shape for the logo",
+    choices: ["circle", "square", "triangle"]
+},
 
-    },
+{
+    type: "input",
+    name: "shape_color",
+    message: "Enter a shape color.This can be a color keyword or a hexadecimal value."
+}, 
 
-    {  
-        type: 'input',
-        name: 'color',
-        message: 'What color would you like to use?'
-
-    },
-
-    {
-        type: 'input',
-        name: 'shape_color',
-        message: 'What color would you like to use for your shape?'
-
-    },
 ]
 
 let shape;
@@ -52,30 +51,35 @@ function init() {
                 shape = new Triangle();
             break;
      }   
+   
 
-     const svg = new svggenerator.SVG();
-     svg.setText(answers.text, answers.color);
-     shape.setColor(answers.shape_color);
-     svg.setShape(shape);
-     
-     const svgString = svg.render();
-     return writeToFile("logo.svg", svgString)
-         })
-     
-     //function to write data to file
-     function writeToFile(fileName, data) {
-         fs.writeFile (fileName, data, (err) => {
-             if (err)
-             return console.log(err);
-             else {
-                 console.log("Success! Generated logo.svg");
-             }
+     //create new svg object with text and shape
+const svg = new svggenerator.SVG();
+svg.setText(answers.text, answers.color);
+shape.setColor(answers.shape_color);
+svg.setShape(shape);
 
-            });
+const svgString = svg.render();
+return writeToFile("logo.svg", svgString)
+    })
+
+//function to write data to file
+function writeToFile(fileName, data) {
+    fs.writeFile (fileName, data, (err) => {
+        if (err)
+        return console.log(err);
+        else {
+            console.log("Success! Generated logo.svg");
         }
+        
+// console.log(answers);
 
-        writeToFile (svggenerator.SVG, svgString);
+    });
+    }
+
+ writeToFile (svggenerator.SVG, svgString);
 
 }
 
+// Function call to initialize app
 init();
