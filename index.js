@@ -1,8 +1,10 @@
 const inquirer = require('inquirer');
-const fs = require('fs');
 const path = require('path');
-svggenerator = require('./lib/svggenerator');
+// File system module (node package manager) import
+const fs = require('fs');
+const svggenerator = require('./lib/svggenerator');
 
+// Importing classes from ./lib/shapes directory
 const { Triangle, Square, Circle } = require("./lib/shapes");
 
 
